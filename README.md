@@ -7,5 +7,5 @@ This game was created with the purpose of practicing Python with the help of the
 - His website: https://ehmatthes.github.io/pcc/
 
 ## In Process
-- Will add different features to the game for fun in the near future
+Will add different features to the game for fun in the near future
 - 4/5/2019 Sounds to bullets fired
