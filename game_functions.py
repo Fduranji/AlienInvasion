@@ -5,14 +5,14 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, ai_settings, screen, ship, bullets, bullet_sound):
     """Respond to keypresses"""
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     if event.key == pygame.K_LEFT:
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
-        fire_bullet(ai_settings, screen, ship, bullets)
+        fire_bullet(ai_settings, screen, ship, bullets, bullet_sound)
     elif event.key == pygame.K_q:
         sys.exit()
 
@@ -23,12 +23,13 @@ def check_keyup_events(event, ship):
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def fire_bullet(ai_settings, screen, ship, bullets):
+def fire_bullet(ai_settings, screen, ship, bullets, bullet_sound):
     """Fire a bullet if limit no reached yet"""
     # Create a new bullet and add it to the bullets group.
     if len(bullets) < ai_settings.bullets_allowed:
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
+        pygame.mixer.Sound.play(bullet_sound)
 
 def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
     """Update position of bullets and get rid of old bullets."""
@@ -62,7 +63,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
 
         create_fleet(ai_settings, screen, ship, aliens)
 
-def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets):
+def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, bullet_sound):
     """Respond to keypresses and mouse events."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -71,7 +72,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y)
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings, screen, ship, bullets)
+            check_keydown_events(event, ai_settings, screen, ship, bullets, bullet_sound)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
 

@@ -1,5 +1,5 @@
 import sys
-
+import time
 import pygame
 from pygame.sprite import Group
 from settings import Settings
@@ -9,10 +9,10 @@ from button import Button
 from ship import Ship
 import game_functions as gf
 
-
 def run_game():
     # Initialize game and create a screen object.
     pygame.init()
+    bullet_sound = pygame.mixer.Sound('sounds/laser_xShort.wav')
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Alien Invasion")
@@ -37,7 +37,7 @@ def run_game():
 
     # Start the main loop for the game.
     while True:
-        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets)
+        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, bullet_sound)
 
         if stats.game_active:
             ship.update()
@@ -45,5 +45,6 @@ def run_game():
             gf.update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets)
 
         gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button)
+
 
 run_game()
